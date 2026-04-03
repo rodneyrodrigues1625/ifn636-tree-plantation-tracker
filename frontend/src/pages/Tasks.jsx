@@ -17,22 +17,36 @@ const Tasks = () => {
         });
         setTasks(response.data);
       } catch (error) {
-        alert('Failed to fetch tasks.');
+        alert('Failed to fetch tree records.');
       }
     };
 
-    fetchTasks();
+    if (user?.token) {
+      fetchTasks();
+    }
   }, [user]);
 
   return (
     <div className="container mx-auto p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-green-700">Tree Records</h1>
+        <p className="text-gray-600 mt-2">
+          Manage and update plantation records for LeafLine.
+        </p>
+      </div>
+
       <TaskForm
         tasks={tasks}
         setTasks={setTasks}
         editingTask={editingTask}
         setEditingTask={setEditingTask}
       />
-      <TaskList tasks={tasks} setTasks={setTasks} setEditingTask={setEditingTask} />
+
+      <TaskList
+        tasks={tasks}
+        setTasks={setTasks}
+        setEditingTask={setEditingTask}
+      />
     </div>
   );
 };
