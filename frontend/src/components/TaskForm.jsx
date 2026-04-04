@@ -32,16 +32,24 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         });
         setTasks([...tasks, response.data]);
       }
+
       setEditingTask(null);
       setFormData({ title: '', description: '', deadline: '' });
     } catch (error) {
-      alert('Failed to save task.');
+      alert('Failed to save tree record.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
-      <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Tree Record' : 'Create Tree Record'}</h1>
+      <h1 className="text-2xl font-bold mb-2 text-green-700">
+        {editingTask ? 'Edit Tree Record' : 'Create Tree Record'}
+      </h1>
+
+      <p className="text-sm text-gray-600 mb-4">
+        Add and manage plantation details for LeafLine.
+      </p>
+
       <input
         type="text"
         placeholder="Tree Name"
@@ -49,20 +57,23 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
+
       <input
         type="text"
-        placeholder="Location / Notes"
+        placeholder="Plantation Location / Notes"
         value={formData.description}
         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
+
       <input
         type="date"
         value={formData.deadline}
         onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
-      <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+
+      <button type="submit" className="w-full bg-green-700 text-white p-2 rounded hover:bg-green-800">
         {editingTask ? 'Update Tree Record' : 'Create Tree Record'}
       </button>
     </form>
