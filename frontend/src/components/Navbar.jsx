@@ -12,12 +12,13 @@ const Navbar = () => {
 
   return (
     <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
-      <Link to={user ? '/tree-records' : '/login'} className="text-2xl font-bold">
+      <Link to="/" className="text-2xl font-bold">
         LeafLine
       </Link>
       <div>
         {user ? (
           <>
+            <Link to="/" className="mr-4">Dashboard</Link>
             <Link to="/tree-records" className="mr-4">Tree Records</Link>
             <Link to="/profile" className="mr-4">Profile</Link>
             <button
