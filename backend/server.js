@@ -13,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/locations', require('./routes/locationRoutes'));
+app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 

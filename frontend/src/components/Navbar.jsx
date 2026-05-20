@@ -20,6 +20,7 @@ const Navbar = () => {
           <>
             <Link to="/" className="mr-4">Dashboard</Link>
             <Link to="/tree-records" className="mr-4">Tree Records</Link>
+            <Link to="/locations" className="mr-4">Locations</Link>
             <Link to="/profile" className="mr-4">Profile</Link>
             <button
               onClick={handleLogout}

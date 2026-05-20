@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Tasks from './pages/Tasks';
 import Dashboard from './pages/Dashboard';
+import Location from './pages/Location';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tree-records" element={<Tasks />} />
+        <Route path="/location" element={<Location />} />
       </Routes>
     </Router>
   );

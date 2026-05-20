@@ -9,10 +9,20 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
       await axiosInstance.delete(`/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
+
       setTasks(tasks.filter((task) => task._id !== taskId));
     } catch (error) {
       alert('Failed to delete tree record.');
     }
+  };
+
+  const getStatusClass = (status) => {
+    if (status === 'Healthy') return 'bg-green-100 text-green-800';
+    if (status === 'Needs Water') return 'bg-blue-100 text-blue-800';
+    if (status === 'At Risk') return 'bg-red-100 text-red-800';
+    if (status === 'Completed') return 'bg-purple-100 text-purple-800';
+    if (status === 'Planted') return 'bg-yellow-100 text-yellow-800';
+    return 'bg-gray-100 text-gray-800';
   };
 
   return (
@@ -26,12 +36,31 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
       ) : (
         tasks.map((task) => (
           <div key={task._id} className="bg-gray-50 p-4 mb-4 rounded shadow border">
-            <h3 className="text-lg font-bold text-gray-800">{task.title}</h3>
-            <p className="text-gray-700 mt-1">
-              <span className="font-semibold">Location / Notes:</span> {task.description}
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-bold text-gray-800">{task.title}</h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  <span className="font-semibold">Tree Type:</span>{' '}
+                  {task.treeType || 'General'}
+                </p>
+              </div>
+
+              <span
+                className={`text-sm font-semibold px-3 py-1 rounded-full ${getStatusClass(
+                  task.status
+                )}`}
+              >
+                {task.status || 'Planned'}
+              </span>
+            </div>
+
+            <p className="text-gray-700 mt-3">
+              <span className="font-semibold">Location / Notes:</span>{' '}
+              {task.description}
             </p>
+
             <p className="text-sm text-gray-500 mt-1">
-              <span className="font-semibold">Date Planted:</span>{' '}
+              <span className="font-semibold">Date Planted / Target Date:</span>{' '}
               {new Date(task.deadline).toLocaleDateString()}
             </p>
 
@@ -42,6 +71,7 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
               >
                 Edit Record
               </button>
+
               <button
                 onClick={() => handleDelete(task._id)}
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

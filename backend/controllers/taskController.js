@@ -1,8 +1,10 @@
-const Task = require('../models/Task');
+const TaskService = require('../services/taskService');
+
+const taskService = new TaskService();
 
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
+    const tasks = await taskService.getTasks(req.user.id);
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch tasks' });
@@ -10,16 +12,8 @@ const getTasks = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-  const { title, description, deadline } = req.body;
-
   try {
-    const task = await Task.create({
-      title,
-      description,
-      deadline,
-      user: req.user.id,
-    });
-
+    const task = await taskService.createTask(req.body, req.user.id);
     res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: 'Failed to create task' });
@@ -27,20 +21,13 @@ const createTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  const { title, description, deadline } = req.body;
-
   try {
-    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+    const updatedTask = await taskService.updateTask(req.params.id, req.user.id, req.body);
 
-    if (!task) {
+    if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    task.title = title;
-    task.description = description;
-    task.deadline = deadline;
-
-    const updatedTask = await task.save();
     res.json(updatedTask);
   } catch (error) {
     res.status(500).json({ message: 'Failed to update task' });
@@ -49,13 +36,12 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+    const deletedTask = await taskService.deleteTask(req.params.id, req.user.id);
 
-    if (!task) {
+    if (!deletedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    await task.deleteOne();
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Failed to delete task' });
