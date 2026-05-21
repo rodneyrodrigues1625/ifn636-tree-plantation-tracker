@@ -1,4 +1,4 @@
-const TaskService = require('../services/taskService');
+const TaskService = require('../services/taskServices');
 
 const taskService = new TaskService();
 
